@@ -70,4 +70,4 @@ const ticker = async () => {
 };
 
 ticker();
-setInterval(ticker, 500);
+setInterval(ticker, 100);
