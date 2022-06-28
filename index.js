@@ -48,10 +48,11 @@ const ticker = async () => {
     console.log("ETH: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 1222 && buyVolume > 0.01) {
-      await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
-      console.log(`Success buy`);
-    } else if (price > 1229 && sellVolume > 0) {
+    // if (price <= 1222 && buyVolume > 0.01) {
+    //   await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
+    //   console.log(`Success buy`);
+    // } else
+    if (price > 1222 && sellVolume > 0) {
       await ccxtGateIoClient.createLimitSellOrder(market, baseCurrency, price);
       console.log(`Success sell`);
     } else {
