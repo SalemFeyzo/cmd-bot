@@ -33,7 +33,7 @@ const ticker = async () => {
     const availableUSDT = Number(usdtAccountBalance.body[0].available);
     const boughtCurr = Number(boughtCurrAccountBalance.body[0].available);
     const price = Number(tickers.body[0].highestBid);
-    const buyVolume = availableUSDT / price; // return how much curr to buy
+    const buyVolume = 10 / price; //availableUSDT / price; // return how much curr to buy
     const sellVolume = boughtCurr * price; // return usdt
     const tradeStatus = currPairs.body.tradeStatus;
     const orders = await api.listAllOpenOrders();
@@ -55,29 +55,29 @@ const ticker = async () => {
     console.log("TEDDY: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.000218 && availableUSDT > 2) {
+    if (price <= 0.00022586 && availableUSDT > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitBuyOrder(
           market,
           buyVolume,
-          price
+          price + 0.00000001
         );
 
         console.log("Buy status: ", order.status);
       } catch (error) {
-        console.log(error.message);
+        console.log("Buy error:", error.message);
       }
-    } else if (price > 0.00022 && sellVolume > 2) {
+    } else if (price > 0.00022588 && sellVolume > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitSellOrder(
           market,
           boughtCurr,
-          price
+          price - 0.00000001
         );
 
         console.log("Sell status: ", order.status);
       } catch (error) {
-        console.log(error.message);
+        console.log("Sell error: ", error.message);
       }
     } else {
       console.log("Order status: Failed");
