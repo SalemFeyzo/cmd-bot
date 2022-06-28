@@ -15,9 +15,9 @@ client.setApiKeySecret(
 const api = new GateApi.SpotApi(client);
 
 // string | Currency pair
-const currencyPair = "ARSW_USDT";
+const currencyPair = "ETH_USDT";
 const baseCurrency = "USDT";
-const currencyToBuy = "ARSW"; // "REVOLAND" , "WLKN" , "BTC"
+const currencyToBuy = "ETH"; // "REVOLAND" , "WLKN" , "BTC"
 
 const ticker = async () => {
   try {
@@ -42,16 +42,17 @@ const ticker = async () => {
     });
 
     const market = `${currencyToBuy}/${baseCurrency}`;
-
+    console.log(buyVolume);
+    // console.log(sellVolume);
     console.log("USDT: ", availableUSDT);
-    console.log("ARSW: ", boughtCurr);
+    console.log("ETH: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.019 && buyVolume > 0) {
-      await ccxtGateIoClient.createLimitBuyOrder(market, availableUSDT, price);
+    if (price <= 1224 && buyVolume > 0) {
+      await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
       console.log(`Success buy`);
-    } else if (price > 0.025 && sellVolume > 1) {
-      await ccxtGateIoClient.createLimitSellOrder(market, boughtCurr, price);
+    } else if (price > 1224 && sellVolume > 1) {
+      await ccxtGateIoClient.createLimitSellOrder(market, sellVolume, price);
       console.log(`Success sell`);
     } else {
       console.log("Failed");
@@ -62,4 +63,4 @@ const ticker = async () => {
 };
 
 ticker();
-setInterval(ticker, 500);
+setInterval(ticker, 1000);
