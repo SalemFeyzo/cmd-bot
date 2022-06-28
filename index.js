@@ -55,7 +55,7 @@ const ticker = async () => {
     console.log("TEDDY: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.000221 && availableUSDT > 2) {
+    if (price <= 0.000218 && availableUSDT > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitBuyOrder(
           market,
@@ -67,7 +67,7 @@ const ticker = async () => {
       } catch (error) {
         console.log(error.message);
       }
-    } else if (price > 0.000221 && sellVolume > 2) {
+    } else if (price > 0.00022 && sellVolume > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitSellOrder(
           market,
