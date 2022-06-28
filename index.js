@@ -60,7 +60,7 @@ const ticker = async () => {
       );
 
       console.log("Buy status: ", order.status);
-    } else if (price > 0.0128 && sellVolume > 2) {
+    } else if (price > 0.0129 && sellVolume > 2) {
       const order = await ccxtGateIoClient.createLimitSellOrder(
         market,
         boughtCurr,
