@@ -47,19 +47,11 @@ const ticker = async () => {
     console.log("ARSW: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.04 && buyVolume > 0) {
-      await ccxtGateIoClient.createLimitBuyOrder(
-        market,
-        availableUSDT,
-        price + 0.001
-      );
+    if (price <= 0.012 && buyVolume > 0) {
+      await ccxtGateIoClient.createLimitBuyOrder(market, availableUSDT, price);
       console.log(`Success buy`);
-    } else if (price > 0.12 && sellVolume > 1) {
-      await ccxtGateIoClient.createLimitSellOrder(
-        market,
-        boughtCurr,
-        price - 0.001
-      );
+    } else if (price > 0.15 && sellVolume > 1) {
+      await ccxtGateIoClient.createLimitSellOrder(market, boughtCurr, price);
       console.log(`Success sell`);
     } else {
       console.log("Failed");
@@ -70,4 +62,4 @@ const ticker = async () => {
 };
 
 ticker();
-setInterval(ticker, 100);
+setInterval(ticker, 500);
