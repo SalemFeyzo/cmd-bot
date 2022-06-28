@@ -47,14 +47,14 @@ const ticker = async () => {
     console.log("ARSW: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.01 && buyVolume > 0) {
+    if (price <= 0.012 && buyVolume > 0) {
       await ccxtGateIoClient.createLimitBuyOrder(
         market,
         availableUSDT,
         price + 0.001
       );
       console.log(`Success buy`);
-    } else if (price > 0.1 && sellVolume > 1) {
+    } else if (price > 0.12 && sellVolume > 1) {
       await ccxtGateIoClient.createLimitSellOrder(
         market,
         boughtCurr,
