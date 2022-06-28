@@ -40,6 +40,10 @@ const ticker = async () => {
       side: "buy",
       account: "spot",
     });
+    await api.cancelOrders(currencyPair, {
+      side: "sell",
+      account: "spot",
+    });
 
     const market = `${currencyToBuy}/${baseCurrency}`;
     console.log("buyVolume: ", buyVolume);
@@ -48,15 +52,21 @@ const ticker = async () => {
     console.log("ARSW: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.013 && availableUSDT > 2) {
-      await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
+    if (price <= 0.012 && availableUSDT > 2) {
+      const order = await ccxtGateIoClient.createLimitBuyOrder(
+        market,
+        buyVolume,
+        price
+      );
+
       console.log("Buy status: ", order.status);
-    } else if (price > 0.013 && sellVolume > 2) {
+    } else if (price > 0.0128 && sellVolume > 2) {
       const order = await ccxtGateIoClient.createLimitSellOrder(
         market,
         boughtCurr,
         price
       );
+
       console.log("Sell status: ", order.status);
     } else {
       console.log("Order status: Failed");
@@ -67,4 +77,4 @@ const ticker = async () => {
 };
 
 ticker();
-// setInterval(ticker, 1000);
+setInterval(ticker, 1000);
