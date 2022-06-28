@@ -15,9 +15,9 @@ client.setApiKeySecret(
 const api = new GateApi.SpotApi(client);
 
 // string | Currency pair
-const currencyPair = "ETH_USDT";
+const currencyPair = "ARSW_USDT";
 const baseCurrency = "USDT";
-const currencyToBuy = "ETH"; // "REVOLAND" , "WLKN" , "BTC"
+const currencyToBuy = "ARSW"; // "REVOLAND" , "WLKN" , "BTC"
 
 const ticker = async () => {
   try {
@@ -32,8 +32,8 @@ const ticker = async () => {
     const availableUSDT = Number(usdtAccountBalance.body[0].available);
     const boughtCurr = Number(boughtCurrAccountBalance.body[0].available);
     const price = Number(tickers.body[0].highestBid);
-    const buyVolume = availableUSDT / price;
-    const sellVolume = boughtCurr * price;
+    const buyVolume = availableUSDT / price; // return how much curr to buy
+    const sellVolume = boughtCurr * price; // return usdt
     const tradeStatus = currPairs.body.tradeStatus;
 
     await api.cancelOrders(currencyPair, {
@@ -45,18 +45,21 @@ const ticker = async () => {
     console.log("buyVolume: ", buyVolume);
     console.log("sellVolume: ", sellVolume);
     console.log("USDT: ", availableUSDT);
-    console.log("ETH: ", boughtCurr);
+    console.log("ARSW: ", boughtCurr);
     console.log("Price: ", price);
 
-    // if (price <= 1222 && buyVolume > 0.01) {
-    //   await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
-    //   console.log(`Success buy`);
-    // } else
-    if (price > 1222 && sellVolume > 0) {
-      await ccxtGateIoClient.createLimitSellOrder(market, baseCurrency, price);
-      console.log(`Success sell`);
+    if (price <= 0.013 && availableUSDT > 2) {
+      await ccxtGateIoClient.createLimitBuyOrder(market, buyVolume, price);
+      console.log("Buy status: ", order.status);
+    } else if (price > 0.013 && sellVolume > 2) {
+      const order = await ccxtGateIoClient.createLimitSellOrder(
+        market,
+        boughtCurr,
+        price
+      );
+      console.log("Sell status: ", order.status);
     } else {
-      console.log("Failed");
+      console.log("Order status: Failed");
     }
   } catch (error) {
     console.error(error);
@@ -64,4 +67,4 @@ const ticker = async () => {
 };
 
 ticker();
-setInterval(ticker, 1000);
+// setInterval(ticker, 1000);
