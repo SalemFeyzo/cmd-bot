@@ -56,7 +56,7 @@ const ticker = async () => {
       const order = await ccxtGateIoClient.createLimitBuyOrder(
         market,
         buyVolume,
-        price
+        price + 0.0001
       );
 
       console.log("Buy status: ", order.status);
@@ -64,7 +64,7 @@ const ticker = async () => {
       const order = await ccxtGateIoClient.createLimitSellOrder(
         market,
         boughtCurr,
-        price
+        price - 0.0001
       );
 
       console.log("Sell status: ", order.status);
