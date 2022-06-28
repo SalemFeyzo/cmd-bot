@@ -33,7 +33,7 @@ const ticker = async () => {
     const availableUSDT = Number(usdtAccountBalance.body[0].available);
     const boughtCurr = Number(boughtCurrAccountBalance.body[0].available);
     const price = Number(tickers.body[0].highestBid);
-    const buyVolume = 10 / price; //availableUSDT / price; // return how much curr to buy
+    const buyVolume = availableUSDT / price - 10; // return how much curr to buy
     const sellVolume = boughtCurr * price; // return usdt
     const tradeStatus = currPairs.body.tradeStatus;
     const orders = await api.listAllOpenOrders();
@@ -55,7 +55,7 @@ const ticker = async () => {
     console.log("TEDDY: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.00022586 && availableUSDT > 2) {
+    if (price <= 0.00022437 && availableUSDT > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitBuyOrder(
           market,
