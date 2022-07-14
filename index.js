@@ -16,9 +16,9 @@ client.setApiKeySecret(
 const api = new GateApi.SpotApi(client);
 
 // string | Currency pair
-const currencyPair = "TEDDY_USDT";
+const currencyPair = "MART_USDT";
 const baseCurrency = "USDT";
-const currencyToBuy = "TEDDY"; // "REVOLAND" , "WLKN" , "BTC"
+const currencyToBuy = "MART"; // "REVOLAND" , "WLKN" , "BTC"
 
 const ticker = async () => {
   try {
@@ -33,7 +33,7 @@ const ticker = async () => {
     const availableUSDT = Number(usdtAccountBalance.body[0].available);
     const boughtCurr = Number(boughtCurrAccountBalance.body[0].available);
     const price = Number(tickers.body[0].highestBid);
-    const buyVolume = availableUSDT / price - 100; // return how much curr to buy
+    const buyVolume = availableUSDT / price - 10; // return how much curr to buy
     const sellVolume = boughtCurr * price; // return usdt
     const tradeStatus = currPairs.body.tradeStatus;
     const orders = await api.listAllOpenOrders();
@@ -52,27 +52,27 @@ const ticker = async () => {
     console.log("buyVolume: ", buyVolume);
     console.log("sellVolume: ", sellVolume);
     console.log("USDT: ", availableUSDT);
-    console.log("TEDDY: ", boughtCurr);
+    console.log("MART: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.000225 && availableUSDT > 2) {
+    if (price <= 0.65 && availableUSDT > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitBuyOrder(
           market,
           buyVolume,
-          price + 0.00000015
+          price + 0.01
         );
 
         console.log("Buy status: ", order.status);
       } catch (error) {
         console.log("Buy error:", error.message);
       }
-    } else if (price > 0.000226 && sellVolume > 2) {
+    } else if (price > 0.7 && sellVolume > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitSellOrder(
           market,
           boughtCurr,
-          price - 0.00000015
+          price - 0.01
         );
 
         console.log("Sell status: ", order.status);
@@ -88,4 +88,4 @@ const ticker = async () => {
 };
 
 ticker();
-setInterval(ticker, 2000);
+setInterval(ticker, 1000);
