@@ -55,7 +55,7 @@ const ticker = async () => {
     console.log("MART: ", boughtCurr);
     console.log("Price: ", price);
 
-    if (price <= 0.35 && availableUSDT > 2) {
+    if (price <= 0.2 && availableUSDT > 2) {
       try {
         const order = await ccxtGateIoClient.createLimitBuyOrder(
           market,
